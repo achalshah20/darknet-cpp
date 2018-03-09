@@ -21,6 +21,10 @@ find_package( CUDA REQUIRED )
 add_library(${PROJECT_NAME} SHARED ${PROJECT_SRCS} ${PROJECT_INCS})
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_14)
 
+target_compile_definitions(${PROJECT_NAME} PUBLIC
+                          OPENCV
+                          GPU)
+
 target_include_directories(${PROJECT_NAME} PUBLIC
                           $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
                           $<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>)
@@ -31,6 +35,8 @@ target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC
 
 target_link_libraries(${PROJECT_NAME}
                       ${OpenCV_LIBS}
+                      ${CUDA_LIBRARIES}
+                      ${CUDA_curand_LIBRARY}
                       ${CUDA_CUBLAS_LIBRARIES})
 
 install(TARGETS ${PROJECT_NAME}
