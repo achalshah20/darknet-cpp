@@ -15,7 +15,7 @@ void forward_batchnorm_layer(layer l, network_state state);
 
 void backward_batchnorm_layer(layer l, network_state state);
 
-#ifdef GPU
+#ifdef DKGPU
 void forward_batchnorm_layer_gpu(layer l, network_state state);
 void backward_batchnorm_layer_gpu(layer l, network_state state);
 void pull_batchnorm_layer(layer l);

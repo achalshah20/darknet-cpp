@@ -1,8 +1,8 @@
 #ifndef AVGPOOL_LAYER_H
 #define AVGPOOL_LAYER_H
 
-#include "image.h"
 #include "cuda.h"
+#include "image.h"
 #include "layer.h"
 #include "network.h"
 
@@ -22,7 +22,7 @@ void forward_avgpool_layer(const avgpool_layer l, network_state state);
 
 void backward_avgpool_layer(const avgpool_layer l, network_state state);
 
-#ifdef GPU
+#ifdef DKGPU
 void forward_avgpool_layer_gpu(avgpool_layer l, network_state state);
 void backward_avgpool_layer_gpu(avgpool_layer l, network_state state);
 #endif
@@ -32,4 +32,3 @@ void backward_avgpool_layer_gpu(avgpool_layer l, network_state state);
 #endif
 
 #endif
-

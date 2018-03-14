@@ -22,8 +22,7 @@ add_library(${PROJECT_NAME} SHARED ${PROJECT_SRCS} ${PROJECT_INCS})
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_14)
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC
-                          OPENCV
-                          GPU)
+                          DKGPU)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
                           $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>

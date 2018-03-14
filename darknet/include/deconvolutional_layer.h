@@ -1,9 +1,9 @@
 #ifndef DECONVOLUTIONAL_LAYER_H
 #define DECONVOLUTIONAL_LAYER_H
 
+#include "activations.h"
 #include "cuda.h"
 #include "image.h"
-#include "activations.h"
 #include "layer.h"
 #include "network.h"
 
@@ -13,20 +13,37 @@ extern "C" {
 
 typedef layer deconvolutional_layer;
 
-#ifdef GPU
-void forward_deconvolutional_layer_gpu(deconvolutional_layer layer, network_state state);
-void backward_deconvolutional_layer_gpu(deconvolutional_layer layer, network_state state);
-void update_deconvolutional_layer_gpu(deconvolutional_layer layer, float learning_rate, float momentum, float decay);
+#ifdef DKGPU
+void forward_deconvolutional_layer_gpu(deconvolutional_layer layer,
+                                       network_state state);
+void backward_deconvolutional_layer_gpu(deconvolutional_layer layer,
+                                        network_state state);
+void update_deconvolutional_layer_gpu(deconvolutional_layer layer,
+                                      float learning_rate,
+                                      float momentum,
+                                      float decay);
 void push_deconvolutional_layer(deconvolutional_layer layer);
 void pull_deconvolutional_layer(deconvolutional_layer layer);
 #endif
 
-deconvolutional_layer
-make_deconvolutional_layer(int batch, int h, int w, int c, int n, int size, int stride, ACTIVATION activation);
+deconvolutional_layer make_deconvolutional_layer(int batch,
+                                                 int h,
+                                                 int w,
+                                                 int c,
+                                                 int n,
+                                                 int size,
+                                                 int stride,
+                                                 ACTIVATION activation);
 void resize_deconvolutional_layer(deconvolutional_layer *layer, int h, int w);
-void forward_deconvolutional_layer(const deconvolutional_layer layer, network_state state);
-void update_deconvolutional_layer(deconvolutional_layer layer, int a, float learning_rate, float momentum, float decay);
-void backward_deconvolutional_layer(deconvolutional_layer layer, network_state state);
+void forward_deconvolutional_layer(const deconvolutional_layer layer,
+                                   network_state state);
+void update_deconvolutional_layer(deconvolutional_layer layer,
+                                  int a,
+                                  float learning_rate,
+                                  float momentum,
+                                  float decay);
+void backward_deconvolutional_layer(deconvolutional_layer layer,
+                                    network_state state);
 
 image get_deconvolutional_image(deconvolutional_layer layer);
 image get_deconvolutional_delta(deconvolutional_layer layer);
@@ -40,4 +57,3 @@ int deconvolutional_out_width(deconvolutional_layer layer);
 #endif
 
 #endif
-

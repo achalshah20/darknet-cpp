@@ -1,5 +1,5 @@
-#ifndef ACTIVATION_LAYER_H
-#define ACTIVATION_LAYER_H
+#ifndef DARKNET_ACTIVATION_LAYER_H
+#define DARKNET_ACTIVATION_LAYER_H
 
 #include "activations.h"
 #include "layer.h"
@@ -15,7 +15,7 @@ void forward_activation_layer(layer l, network_state state);
 
 void backward_activation_layer(layer l, network_state state);
 
-#ifdef GPU
+#ifdef DKGPU
 void forward_activation_layer_gpu(layer l, network_state state);
 void backward_activation_layer_gpu(layer l, network_state state);
 #endif
@@ -25,4 +25,3 @@ void backward_activation_layer_gpu(layer l, network_state state);
 #endif
 
 #endif
-

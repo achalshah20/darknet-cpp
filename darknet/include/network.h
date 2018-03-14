@@ -2,9 +2,9 @@
 #ifndef NETWORK_H
 #define NETWORK_H
 
+#include "data.h"
 #include "image.h"
 #include "layer.h"
-#include "data.h"
 #include "tree.h"
 
 #ifdef __cplusplus
@@ -12,76 +12,84 @@ extern "C" {
 #endif
 
 typedef enum {
-    CONSTANT, STEP, EXP, POLY, STEPS, SIG, RANDOM
+  CONSTANT,
+  STEP,
+  EXP,
+  POLY,
+  STEPS,
+  SIG,
+  RANDOM
 } learning_rate_policy;
 
-typedef struct network {
-    float *workspace;
-    int n;
-    int batch;
-    int *seen;
-    float epoch;
-    int subdivisions;
-    float momentum;
-    float decay;
-    layer *layers;
-    int outputs;
-    float *output;
-    learning_rate_policy policy;
+typedef struct network
+{
+  float *workspace;
+  int n;
+  int batch;
+  int *seen;
+  float epoch;
+  int subdivisions;
+  float momentum;
+  float decay;
+  layer *layers;
+  int outputs;
+  float *output;
+  learning_rate_policy policy;
 
-    float learning_rate;
-    float gamma;
-    float scale;
-    float power;
-    int time_steps;
-    int step;
-    int max_batches;
-    float *scales;
-    int *steps;
-    int num_steps;
-    int burn_in;
+  float learning_rate;
+  float gamma;
+  float scale;
+  float power;
+  int time_steps;
+  int step;
+  int max_batches;
+  float *scales;
+  int *steps;
+  int num_steps;
+  int burn_in;
 
-    int adam;
-    float B1;
-    float B2;
-    float eps;
+  int adam;
+  float B1;
+  float B2;
+  float eps;
 
-    int inputs;
-    int h, w, c;
-    int max_crop;
-    int min_crop;
-    float angle;
-    float aspect;
-    float exposure;
-    float saturation;
-    float hue;
+  int inputs;
+  int h, w, c;
+  int max_crop;
+  int min_crop;
+  float angle;
+  float aspect;
+  float exposure;
+  float saturation;
+  float hue;
 
-    int gpu_index;
-    tree *hierarchy;
+  int gpu_index;
+  tree *hierarchy;
 
-#ifdef GPU
-    float **input_gpu;
-    float **truth_gpu;
+#ifdef DKGPU
+  float **input_gpu;
+  float **truth_gpu;
 #endif
 } network;
 
-typedef struct network_state {
-    float *truth;
-    float *input;
-    float *delta;
-    float *workspace;
-    int train;
-    int index;
-    network net;
+typedef struct network_state
+{
+  float *truth;
+  float *input;
+  float *delta;
+  float *workspace;
+  int train;
+  int index;
+  network net;
 } network_state;
 
-#ifdef GPU
+#ifdef DKGPU
 float train_networks(network *nets, int n, data d, int interval);
 void sync_nets(network *nets, int n, int interval);
 float train_network_datum_gpu(network net, float *x, float *y);
 float *network_predict_gpu(network net, float *input);
-float * get_network_output_gpu_layer(network net, int i);
-float * get_network_delta_gpu_layer(network net, int i);
+float *get_network_output_gpu_layer(network net, int i);
+float *get_network_delta_gpu_layer(network net, int i);
 float *get_network_output_gpu(network net);
 void forward_network_gpu(network net, network_state state);
 void backward_network_gpu(network net, network_state state);
@@ -134,4 +142,3 @@ int get_network_background(network net);
 #endif
 
 #endif
-

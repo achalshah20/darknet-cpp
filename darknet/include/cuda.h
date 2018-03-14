@@ -1,9 +1,9 @@
 #ifndef CUDA_H
 #define CUDA_H
 
+#include "cublas_v2.h"
 #include "cuda_runtime.h"
 #include "curand.h"
-#include "cublas_v2.h"
 
 extern int gpu_index;
 
@@ -11,7 +11,7 @@ extern int gpu_index;
 extern "C" {
 #endif
 
-#ifdef GPU
+#ifdef DKGPU
 
 #define BLOCK 512
 
