@@ -1,6 +1,12 @@
 cmake_minimum_required(VERSION 3.9)
 
 project(darknet_cpp LANGUAGES CXX CUDA)
+if(CMAKE_BUILD_TYPE STREQUAL "DEBUG")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Winline")
+else()
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -DNDEBUG")
+endif()
+message(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 
 set(CUDA_PROPAGATE_HOST_FLAGS OFF)
 set(CUDA_WARNING "cross-execution-space-call")
