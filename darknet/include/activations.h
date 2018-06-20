@@ -1,28 +1,8 @@
-#ifndef DARKNET_ACTIVATIONS_H
-#define DARKNET_ACTIVATIONS_H
-
+#ifndef ACTIVATIONS_H
+#define ACTIVATIONS_H
 #include "cuda.h"
+#include "darknet.h"
 #include "math.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-typedef enum {
-  LOGISTIC,
-  RELU,
-  RELIE,
-  LINEAR,
-  RAMP,
-  TANH,
-  PLSE,
-  LEAKY,
-  ELU,
-  LOGGY,
-  STAIR,
-  HARDTAN,
-  LHTAN
-} ACTIVATION;
 
 ACTIVATION get_activation(char *s);
 
@@ -35,8 +15,8 @@ void gradient_array(const float *x,
                     float *delta);
 void activate_array(float *x, const int n, const ACTIVATION a);
 #ifdef DKGPU
-void activate_array_ongpu(float *x, int n, ACTIVATION a);
-void gradient_array_ongpu(float *x, int n, ACTIVATION a, float *delta);
+void activate_array_gpu(float *x, int n, ACTIVATION a);
+void gradient_array_gpu(float *x, int n, ACTIVATION a, float *delta);
 #endif
 
 static inline float stair_activate(float x)
@@ -159,9 +139,5 @@ static inline float plse_gradient(float x)
 {
   return (x < 0 || x > 1) ? .01 : .125;
 }
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif

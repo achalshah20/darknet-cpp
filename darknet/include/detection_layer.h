@@ -1,18 +1,10 @@
 #ifndef DETECTION_LAYER_H
 #define DETECTION_LAYER_H
 
+#include "layer.h"
 #include "network.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 typedef layer detection_layer;
-
-#ifdef DKGPU
-void forward_detection_layer_gpu(const detection_layer l, network_state state);
-void backward_detection_layer_gpu(detection_layer l, network_state state);
-#endif
 
 detection_layer make_detection_layer(int batch,
                                      int inputs,
@@ -21,18 +13,12 @@ detection_layer make_detection_layer(int batch,
                                      int classes,
                                      int coords,
                                      int rescore);
-void forward_detection_layer(const detection_layer l, network_state state);
-void backward_detection_layer(const detection_layer l, network_state state);
-void get_detection_boxes(layer l,
-                         int w,
-                         int h,
-                         float thresh,
-                         float **probs,
-                         box *boxes,
-                         int only_objectness);
+void forward_detection_layer(const detection_layer l, network net);
+void backward_detection_layer(const detection_layer l, network net);
 
-#ifdef __cplusplus
-}
+#ifdef DKGPU
+void forward_detection_layer_gpu(const detection_layer l, network net);
+void backward_detection_layer_gpu(detection_layer l, network net);
 #endif
 
 #endif

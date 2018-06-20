@@ -38,7 +38,7 @@ void resize_avgpool_layer(avgpool_layer *l, int w, int h)
   l->inputs = h * w * l->c;
 }
 
-void forward_avgpool_layer(const avgpool_layer l, network_state state)
+void forward_avgpool_layer(const avgpool_layer l, network net)
 {
   int b, i, k;
 
@@ -51,14 +51,14 @@ void forward_avgpool_layer(const avgpool_layer l, network_state state)
       for (i = 0; i < l.h * l.w; ++i)
       {
         int in_index = i + l.h * l.w * (k + b * l.c);
-        l.output[out_index] += state.input[in_index];
+        l.output[out_index] += net.input[in_index];
       }
       l.output[out_index] /= l.h * l.w;
     }
   }
 }
 
-void backward_avgpool_layer(const avgpool_layer l, network_state state)
+void backward_avgpool_layer(const avgpool_layer l, network net)
 {
   int b, i, k;
 
@@ -70,7 +70,7 @@ void backward_avgpool_layer(const avgpool_layer l, network_state state)
       for (i = 0; i < l.h * l.w; ++i)
       {
         int in_index = i + l.h * l.w * (k + b * l.c);
-        state.delta[in_index] += l.delta[out_index] / (l.h * l.w);
+        net.delta[in_index] += l.delta[out_index] / (l.h * l.w);
       }
     }
   }

@@ -58,13 +58,13 @@ void time_random_matrix(int TA, int TB, int m, int k, int n)
   if (!TA)
     a = random_matrix(m, k);
   else
-    a     = random_matrix(k, m);
+    a = random_matrix(k, m);
   int lda = (!TA) ? k : m;
   float *b;
   if (!TB)
     b = random_matrix(k, n);
   else
-    b     = random_matrix(n, k);
+    b = random_matrix(n, k);
   int ldb = (!TB) ? n : k;
 
   float *c = random_matrix(m, n);
@@ -315,13 +315,13 @@ void time_gpu_random_matrix(int TA, int TB, int m, int k, int n)
   if (!TA)
     a = random_matrix(m, k);
   else
-    a     = random_matrix(k, m);
+    a = random_matrix(k, m);
   int lda = (!TA) ? k : m;
   float *b;
   if (!TB)
     b = random_matrix(k, n);
   else
-    b     = random_matrix(n, k);
+    b = random_matrix(n, k);
   int ldb = (!TB) ? n : k;
 
   float *c = random_matrix(m, n);
@@ -396,13 +396,13 @@ void test_gpu_accuracy(int TA, int TB, int m, int k, int n)
   if (!TA)
     a = random_matrix(m, k);
   else
-    a     = random_matrix(k, m);
+    a = random_matrix(k, m);
   int lda = (!TA) ? k : m;
   float *b;
   if (!TB)
     b = random_matrix(k, n);
   else
-    b     = random_matrix(n, k);
+    b = random_matrix(n, k);
   int ldb = (!TB) ? n : k;
 
   float *c     = random_matrix(m, n);
@@ -412,7 +412,7 @@ void test_gpu_accuracy(int TA, int TB, int m, int k, int n)
   int i;
   // pm(m,k,b);
   gemm_gpu(TA, TB, m, n, k, 1, a, lda, b, ldb, 1, c_gpu, n);
-  // printf("GPU\n");
+  // printf("DKGPU\n");
   // pm(m, n, c_gpu);
 
   gemm_cpu(TA, TB, m, n, k, 1, a, lda, b, ldb, 1, c, n);

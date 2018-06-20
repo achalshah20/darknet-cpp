@@ -5,10 +5,6 @@
 #include "layer.h"
 #include "network.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 typedef layer crop_layer;
 
 image get_crop_image(crop_layer l);
@@ -22,15 +18,11 @@ crop_layer make_crop_layer(int batch,
                            float angle,
                            float saturation,
                            float exposure);
-void forward_crop_layer(const crop_layer l, network_state state);
+void forward_crop_layer(const crop_layer l, network net);
 void resize_crop_layer(layer *l, int w, int h);
 
 #ifdef DKGPU
-void forward_crop_layer_gpu(crop_layer l, network_state state);
-#endif
-
-#ifdef __cplusplus
-}
+void forward_crop_layer_gpu(crop_layer l, network net);
 #endif
 
 #endif
