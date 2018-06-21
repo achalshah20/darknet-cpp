@@ -36,11 +36,11 @@ detection_layer make_detection_layer(int batch,
   l.outputs = l.inputs;
   l.truths  = l.side * l.side * (1 + l.coords + l.classes);
   l.output  = (float *)calloc(batch * l.outputs, sizeof(float));
-  l.delta   = (float *)calloc(batch * l.outputs, sizeof(float));
 
+  l.delta    = (float *)calloc(batch * l.outputs, sizeof(float));
   l.forward  = forward_detection_layer;
   l.backward = backward_detection_layer;
-#ifdef GPU
+#ifdef DKGPU
   l.forward_gpu  = forward_detection_layer_gpu;
   l.backward_gpu = backward_detection_layer_gpu;
   l.output_gpu   = cuda_make_array(l.output, batch * l.outputs);
@@ -318,7 +318,7 @@ void get_detection_detections(
   }
 }
 
-#ifdef GPU
+#ifdef DKGPU
 
 void forward_detection_layer_gpu(const detection_layer l, network net)
 {

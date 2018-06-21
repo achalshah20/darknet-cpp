@@ -38,7 +38,7 @@ layer make_shortcut_layer(
 
   l.forward  = forward_shortcut_layer;
   l.backward = backward_shortcut_layer;
-#ifdef GPU
+#ifdef DKGPU
   l.forward_gpu  = forward_shortcut_layer_gpu;
   l.backward_gpu = backward_shortcut_layer_gpu;
 
@@ -60,7 +60,7 @@ void resize_shortcut_layer(layer *l, int w, int h)
   l->output =
       (float *)realloc(l->output, l->outputs * l->batch * sizeof(float));
 
-#ifdef GPU
+#ifdef DKGPU
   cuda_free(l->output_gpu);
   cuda_free(l->delta_gpu);
   l->output_gpu = cuda_make_array(l->output, l->outputs * l->batch);
@@ -102,7 +102,7 @@ void backward_shortcut_layer(const layer l, network net)
                net.layers[l.index].delta);
 }
 
-#ifdef GPU
+#ifdef DKGPU
 void forward_shortcut_layer_gpu(const layer l, network net)
 {
   copy_gpu(l.outputs * l.batch, net.input_gpu, 1, l.output_gpu, 1);

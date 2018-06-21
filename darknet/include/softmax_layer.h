@@ -2,18 +2,23 @@
 #define SOFTMAX_LAYER_H
 #include "layer.h"
 #include "network.h"
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+  typedef layer softmax_layer;
 
-typedef layer softmax_layer;
-
-void softmax_array(float *input, int n, float temp, float *output);
-softmax_layer make_softmax_layer(int batch, int inputs, int groups);
-void forward_softmax_layer(const softmax_layer l, network net);
-void backward_softmax_layer(const softmax_layer l, network net);
+  void softmax_array(float *input, int n, float temp, float *output);
+  softmax_layer make_softmax_layer(int batch, int inputs, int groups);
+  void forward_softmax_layer(const softmax_layer l, network net);
+  void backward_softmax_layer(const softmax_layer l, network net);
 
 #ifdef DKGPU
-void pull_softmax_layer_output(const softmax_layer l);
-void forward_softmax_layer_gpu(const softmax_layer l, network net);
-void backward_softmax_layer_gpu(const softmax_layer l, network net);
+  void pull_softmax_layer_output(const softmax_layer l);
+  void forward_softmax_layer_gpu(const softmax_layer l, network net);
+  void backward_softmax_layer_gpu(const softmax_layer l, network net);
 #endif
-
+#ifdef __cplusplus
+}
+#endif
 #endif

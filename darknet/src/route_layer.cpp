@@ -32,7 +32,7 @@ route_layer make_route_layer(int batch,
 
   l.forward  = forward_route_layer;
   l.backward = backward_route_layer;
-#ifdef GPU
+#ifdef DKGPU
   l.forward_gpu  = forward_route_layer_gpu;
   l.backward_gpu = backward_route_layer_gpu;
 
@@ -73,7 +73,7 @@ void resize_route_layer(route_layer *l, network *net)
   l->output =
       (float *)realloc(l->output, l->outputs * l->batch * sizeof(float));
 
-#ifdef GPU
+#ifdef DKGPU
   cuda_free(l->output_gpu);
   cuda_free(l->delta_gpu);
   l->output_gpu = cuda_make_array(l->output, l->outputs * l->batch);
@@ -124,7 +124,7 @@ void backward_route_layer(const route_layer l, network net)
   }
 }
 
-#ifdef GPU
+#ifdef DKGPU
 void forward_route_layer_gpu(const route_layer l, network net)
 {
   int i, j;

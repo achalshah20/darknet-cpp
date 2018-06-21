@@ -66,7 +66,7 @@ layer make_reorg_layer(int batch,
 
   l.forward  = forward_reorg_layer;
   l.backward = backward_reorg_layer;
-#ifdef GPU
+#ifdef DKGPU
   l.forward_gpu  = forward_reorg_layer_gpu;
   l.backward_gpu = backward_reorg_layer_gpu;
 
@@ -104,7 +104,7 @@ void resize_reorg_layer(layer *l, int w, int h)
   l->output = (float *)realloc(l->output, output_size * sizeof(float));
   l->delta  = (float *)realloc(l->delta, output_size * sizeof(float));
 
-#ifdef GPU
+#ifdef DKGPU
   cuda_free(l->output_gpu);
   cuda_free(l->delta_gpu);
   l->output_gpu = cuda_make_array(l->output, output_size);
@@ -178,7 +178,7 @@ void backward_reorg_layer(const layer l, network net)
   }
 }
 
-#ifdef GPU
+#ifdef DKGPU
 void forward_reorg_layer_gpu(layer l, network net)
 {
   int i;

@@ -26,7 +26,7 @@ softmax_layer make_softmax_layer(int batch, int inputs, int groups)
 
   l.forward  = forward_softmax_layer;
   l.backward = backward_softmax_layer;
-#ifdef GPU
+#ifdef DKGPU
   l.forward_gpu  = forward_softmax_layer_gpu;
   l.backward_gpu = backward_softmax_layer_gpu;
 
@@ -83,7 +83,7 @@ void backward_softmax_layer(const softmax_layer l, network net)
   axpy_cpu(l.inputs * l.batch, 1, l.delta, 1, net.delta, 1);
 }
 
-#ifdef GPU
+#ifdef DKGPU
 
 void pull_softmax_layer_output(const softmax_layer layer)
 {

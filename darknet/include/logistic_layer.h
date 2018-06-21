@@ -3,13 +3,21 @@
 #include "layer.h"
 #include "network.h"
 
-layer make_logistic_layer(int batch, int inputs);
-void forward_logistic_layer(const layer l, network net);
-void backward_logistic_layer(const layer l, network net);
-
-#ifdef DKGPU
-void forward_logistic_layer_gpu(const layer l, network net);
-void backward_logistic_layer_gpu(const layer l, network net);
+#ifdef __cplusplus
+extern "C"
+{
 #endif
 
+  layer make_logistic_layer(int batch, int inputs);
+  void forward_logistic_layer(const layer l, network net);
+  void backward_logistic_layer(const layer l, network net);
+
+#ifdef DKGPU
+  void forward_logistic_layer_gpu(const layer l, network net);
+  void backward_logistic_layer_gpu(const layer l, network net);
+#endif
+
+#ifdef __cplusplus
+}
+#endif
 #endif

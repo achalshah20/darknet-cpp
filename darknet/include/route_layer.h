@@ -2,20 +2,25 @@
 #define ROUTE_LAYER_H
 #include "layer.h"
 #include "network.h"
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+  typedef layer route_layer;
 
-typedef layer route_layer;
-
-route_layer make_route_layer(int batch,
-                             int n,
-                             int *input_layers,
-                             int *input_size);
-void forward_route_layer(const route_layer l, network net);
-void backward_route_layer(const route_layer l, network net);
-void resize_route_layer(route_layer *l, network *net);
+  route_layer make_route_layer(int batch,
+                               int n,
+                               int *input_layers,
+                               int *input_size);
+  void forward_route_layer(const route_layer l, network net);
+  void backward_route_layer(const route_layer l, network net);
+  void resize_route_layer(route_layer *l, network *net);
 
 #ifdef DKGPU
-void forward_route_layer_gpu(const route_layer l, network net);
-void backward_route_layer_gpu(const route_layer l, network net);
+  void forward_route_layer_gpu(const route_layer l, network net);
+  void backward_route_layer_gpu(const route_layer l, network net);
 #endif
-
+#ifdef __cplusplus
+}
+#endif
 #endif

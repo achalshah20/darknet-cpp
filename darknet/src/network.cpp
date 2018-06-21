@@ -72,7 +72,7 @@ void reset_network_state(network *net, int b)
   int i;
   for (i = 0; i < net->n; ++i)
   {
-#ifdef GPU
+#ifdef DKGPU
     layer l = net->layers[i];
     if (l.state_gpu)
     {
@@ -170,7 +170,7 @@ network *make_network(int n)
 
 void forward_network(network *netp)
 {
-#ifdef GPU
+#ifdef DKGPU
   if (netp->gpu_index >= 0)
   {
     forward_network_gpu(netp);
@@ -199,7 +199,7 @@ void forward_network(network *netp)
 
 void update_network(network *netp)
 {
-#ifdef GPU
+#ifdef DKGPU
   if (netp->gpu_index >= 0)
   {
     update_network_gpu(netp);
@@ -254,7 +254,7 @@ int get_predicted_class_network(network *net)
 
 void backward_network(network *netp)
 {
-#ifdef GPU
+#ifdef DKGPU
   if (netp->gpu_index >= 0)
   {
     backward_network_gpu(netp);
@@ -371,7 +371,7 @@ void set_batch_network(network *net, int b)
 
 int resize_network(network *net, int w, int h)
 {
-#ifdef GPU
+#ifdef DKGPU
   cuda_set_device(net->gpu_index);
   cuda_free(net->workspace);
 #endif
@@ -457,7 +457,7 @@ int resize_network(network *net, int w, int h)
   free(net->truth);
   net->input = (float *)calloc(net->inputs * net->batch, sizeof(float));
   net->truth = (float *)calloc(net->truths * net->batch, sizeof(float));
-#ifdef GPU
+#ifdef DKGPU
   if (gpu_index >= 0)
   {
     cuda_free(net->input_gpu);
@@ -473,7 +473,7 @@ int resize_network(network *net, int w, int h)
   else
   {
     free(net->workspace);
-    net->workspace = calloc(1, workspace_size);
+    net->workspace = (float *)calloc(1, workspace_size);
   }
 #else
   free(net->workspace);
@@ -501,7 +501,7 @@ layer get_network_detection_layer(network *net)
 image get_network_image_layer(network *net, int i)
 {
   layer l = net->layers[i];
-#ifdef GPU
+#ifdef DKGPU
   // cuda_pull_array(l.output_gpu, l.output, l.outputs);
 #endif
   if (l.out_w && l.out_h && l.out_c)
@@ -827,7 +827,7 @@ void free_network(network *net)
   free(net->layers);
   if (net->input) free(net->input);
   if (net->truth) free(net->truth);
-#ifdef GPU
+#ifdef DKGPU
   if (net->input_gpu) cuda_free(net->input_gpu);
   if (net->truth_gpu) cuda_free(net->truth_gpu);
 #endif
@@ -862,7 +862,7 @@ float *network_output(network *net)
   return network_output_layer(net).output;
 }
 
-#ifdef GPU
+#ifdef DKGPU
 
 void forward_network_gpu(network *netp)
 {

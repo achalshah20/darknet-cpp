@@ -18,7 +18,7 @@ static void increment_layer(layer *l, int steps)
   l->x += num;
   l->x_norm += num;
 
-#ifdef GPU
+#ifdef DKGPU
   l->output_gpu += num;
   l->delta_gpu += num;
   l->x_gpu += num;
@@ -70,7 +70,7 @@ layer make_rnn_layer(int batch,
   l.forward  = forward_rnn_layer;
   l.backward = backward_rnn_layer;
   l.update   = update_rnn_layer;
-#ifdef GPU
+#ifdef DKGPU
   l.forward_gpu    = forward_rnn_layer_gpu;
   l.backward_gpu   = backward_rnn_layer_gpu;
   l.update_gpu     = update_rnn_layer_gpu;
@@ -217,7 +217,7 @@ void backward_rnn_layer(layer l, network net)
   }
 }
 
-#ifdef GPU
+#ifdef DKGPU
 
 void pull_rnn_layer(layer l)
 {

@@ -3,9 +3,9 @@ int gpu_index = 0;
 #ifdef DKGPU
 
 #include "cuda.h"
+#include <assert.h>
 #include <stdlib.h>
 #include <time.h>
-#include "assert.h"
 #include "blas.h"
 #include "utils.h"
 
@@ -58,7 +58,7 @@ dim3 cuda_gridsize(size_t n)
     x = ceil(sqrt(k));
     y = (n - 1) / (x * BLOCK) + 1;
   }
-  dim3 d(x, y, 1);
+  dim3 d = {x, y, 1};
   // printf("%ld %ld %ld %ld\n", n, x, y, x*y*BLOCK);
   return d;
 }
@@ -102,6 +102,10 @@ float *cuda_make_array(float *x, size_t n)
     status = cudaMemcpy(x_gpu, x, size, cudaMemcpyHostToDevice);
     check_error(status);
   }
+  else
+  {
+    fill_gpu(n, 0, x_gpu, 1);
+  }
   if (!x_gpu) error("Cuda malloc failed\n");
   return x_gpu;
 }
@@ -134,12 +138,18 @@ float cuda_compare(float *x_gpu, float *x, size_t n, char *s)
   return err;
 }
 
-int *cuda_make_int_array(size_t n)
+int *cuda_make_int_array(int *x, size_t n)
 {
   int *x_gpu;
   size_t size        = sizeof(int) * n;
   cudaError_t status = cudaMalloc((void **)&x_gpu, size);
   check_error(status);
+  if (x)
+  {
+    status = cudaMemcpy(x_gpu, x, size, cudaMemcpyHostToDevice);
+    check_error(status);
+  }
+  if (!x_gpu) error("Cuda malloc failed\n");
   return x_gpu;
 }
 
@@ -161,6 +171,19 @@ void cuda_pull_array(float *x_gpu, float *x, size_t n)
   size_t size        = sizeof(float) * n;
   cudaError_t status = cudaMemcpy(x, x_gpu, size, cudaMemcpyDeviceToHost);
   check_error(status);
+}
+
+float cuda_mag_array(float *x_gpu, size_t n)
+{
+  float *temp = (float *)calloc(n, sizeof(float));
+  cuda_pull_array(x_gpu, temp, n);
+  float m = mag_array(temp, n);
+  free(temp);
+  return m;
+}
+#else
+void cuda_set_device(int n)
+{
 }
 
 #endif

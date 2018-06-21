@@ -979,7 +979,7 @@ network *parse_network_cfg(char *filename)
       l        = parse_dropout(options, params);
       l.output = net->layers[count - 1].output;
       l.delta  = net->layers[count - 1].delta;
-#ifdef GPU
+#ifdef DKGPU
       l.output_gpu = net->layers[count - 1].output_gpu;
       l.delta_gpu  = net->layers[count - 1].delta_gpu;
 #endif
@@ -1021,7 +1021,7 @@ network *parse_network_cfg(char *filename)
   net->output = out.output;
   net->input  = (float *)calloc(net->inputs * net->batch, sizeof(float));
   net->truth  = (float *)calloc(net->truths * net->batch, sizeof(float));
-#ifdef GPU
+#ifdef DKGPU
   net->output_gpu = out.output_gpu;
   net->input_gpu  = cuda_make_array(net->input, net->inputs * net->batch);
   net->truth_gpu  = cuda_make_array(net->truth, net->truths * net->batch);
@@ -1029,7 +1029,7 @@ network *parse_network_cfg(char *filename)
   if (workspace_size)
   {
     // printf("%ld\n", workspace_size);
-#ifdef GPU
+#ifdef DKGPU
     if (gpu_index >= 0)
     {
       net->workspace =
@@ -1085,7 +1085,7 @@ list *read_cfg(char *filename)
 
 void save_convolutional_weights_binary(layer l, FILE *fp)
 {
-#ifdef GPU
+#ifdef DKGPU
   if (gpu_index >= 0)
   {
     pull_convolutional_layer(l);
@@ -1127,7 +1127,7 @@ void save_convolutional_weights(layer l, FILE *fp)
     // save_convolutional_weights_binary(l, fp);
     // return;
   }
-#ifdef GPU
+#ifdef DKGPU
   if (gpu_index >= 0)
   {
     pull_convolutional_layer(l);
@@ -1146,7 +1146,7 @@ void save_convolutional_weights(layer l, FILE *fp)
 
 void save_batchnorm_weights(layer l, FILE *fp)
 {
-#ifdef GPU
+#ifdef DKGPU
   if (gpu_index >= 0)
   {
     pull_batchnorm_layer(l);
@@ -1159,7 +1159,7 @@ void save_batchnorm_weights(layer l, FILE *fp)
 
 void save_connected_weights(layer l, FILE *fp)
 {
-#ifdef GPU
+#ifdef DKGPU
   if (gpu_index >= 0)
   {
     pull_connected_layer(l);
@@ -1177,7 +1177,7 @@ void save_connected_weights(layer l, FILE *fp)
 
 void save_weights_upto(network *net, char *filename, int cutoff)
 {
-#ifdef GPU
+#ifdef DKGPU
   if (net->gpu_index >= 0)
   {
     cuda_set_device(net->gpu_index);
@@ -1255,7 +1255,7 @@ void save_weights_upto(network *net, char *filename, int cutoff)
     }
     if (l.type == LOCAL)
     {
-#ifdef GPU
+#ifdef DKGPU
       if (gpu_index >= 0)
       {
         pull_local_layer(l);
@@ -1313,7 +1313,7 @@ void load_connected_weights(layer l, FILE *fp, int transpose)
     // mean %f variance\n", mean_array(l.rolling_variance, l.outputs),
     // variance_array(l.rolling_variance, l.outputs));
   }
-#ifdef GPU
+#ifdef DKGPU
   if (gpu_index >= 0)
   {
     push_connected_layer(l);
@@ -1326,7 +1326,7 @@ void load_batchnorm_weights(layer l, FILE *fp)
   fread(l.scales, sizeof(float), l.c, fp);
   fread(l.rolling_mean, sizeof(float), l.c, fp);
   fread(l.rolling_variance, sizeof(float), l.c, fp);
-#ifdef GPU
+#ifdef DKGPU
   if (gpu_index >= 0)
   {
     push_batchnorm_layer(l);
@@ -1361,7 +1361,7 @@ void load_convolutional_weights_binary(layer l, FILE *fp)
       }
     }
   }
-#ifdef GPU
+#ifdef DKGPU
   if (gpu_index >= 0)
   {
     push_convolutional_layer(l);
@@ -1425,7 +1425,7 @@ void load_convolutional_weights(layer l, FILE *fp)
   }
   // if (l.binary) binarize_weights(l.weights, l.n, l.c*l.size*l.size,
   // l.weights);
-#ifdef GPU
+#ifdef DKGPU
   if (gpu_index >= 0)
   {
     push_convolutional_layer(l);
@@ -1435,7 +1435,7 @@ void load_convolutional_weights(layer l, FILE *fp)
 
 void load_weights_upto(network *net, char *filename, int start, int cutoff)
 {
-#ifdef GPU
+#ifdef DKGPU
   if (net->gpu_index >= 0)
   {
     cuda_set_device(net->gpu_index);
@@ -1528,7 +1528,7 @@ void load_weights_upto(network *net, char *filename, int start, int cutoff)
       int size      = l.size * l.size * l.c * l.n * locations;
       fread(l.biases, sizeof(float), l.outputs, fp);
       fread(l.weights, sizeof(float), size, fp);
-#ifdef GPU
+#ifdef DKGPU
       if (gpu_index >= 0)
       {
         push_local_layer(l);

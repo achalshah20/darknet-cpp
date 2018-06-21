@@ -41,7 +41,7 @@ layer make_region_layer(int batch, int w, int h, int n, int classes, int coords)
 
   l.forward  = forward_region_layer;
   l.backward = backward_region_layer;
-#ifdef GPU
+#ifdef DKGPU
   l.forward_gpu  = forward_region_layer_gpu;
   l.backward_gpu = backward_region_layer_gpu;
   l.output_gpu   = cuda_make_array(l.output, batch * l.outputs);
@@ -66,7 +66,7 @@ void resize_region_layer(layer *l, int w, int h)
       (float *)realloc(l->output, l->batch * l->outputs * sizeof(float));
   l->delta = (float *)realloc(l->delta, l->batch * l->outputs * sizeof(float));
 
-#ifdef GPU
+#ifdef DKGPU
   cuda_free(l->delta_gpu);
   cuda_free(l->output_gpu);
 
@@ -208,7 +208,7 @@ void forward_region_layer(const layer l, network net)
   int i, j, b, t, n;
   memcpy(l.output, net.input, l.outputs * l.batch * sizeof(float));
 
-#ifndef GPU
+#ifndef DKGPU
   for (b = 0; b < l.batch; ++b)
   {
     for (n = 0; n < l.n; ++n)
@@ -639,7 +639,7 @@ void get_region_detections(layer l,
   correct_region_boxes(dets, l.w * l.h * l.n, w, h, netw, neth, relative);
 }
 
-#ifdef GPU
+#ifdef DKGPU
 
 void forward_region_layer_gpu(const layer l, network net)
 {
