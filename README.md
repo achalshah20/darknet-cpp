@@ -4,10 +4,9 @@ Darknet is well known for yolo implementation. However, darknet is built in c an
 
 Current Status:
 - Cmake files added
-- Network detection memory leak fix
+- Yolo v3 added
 
 Future work:
+- Network detection memory leak fix after darknet update
 - Replace c style raw pointers to smart pointers
 - Improve modularity
-
-Initial codebase is from https://github.com/for-aiur/yolo_cpp
