@@ -153,8 +153,8 @@ struct layer
   void (*forward_gpu)(struct layer, struct network);
   void (*backward_gpu)(struct layer, struct network);
   void (*update_gpu)(struct layer, update_args);
-  int batch_normalize;
-  int shortcut;
+  int batch_normalize = 0;
+  int shortcut        = 0;
   int batch;
   int forced;
   int flipped;
@@ -236,203 +236,203 @@ struct layer
   float probability;
   float scale;
 
-  char *cweights;
-  int *indexes;
-  int *input_layers;
-  int *input_sizes;
-  int *map;
-  float *rand;
-  float *cost;
-  float *state;
-  float *prev_state;
-  float *forgot_state;
-  float *forgot_delta;
-  float *state_delta;
-  float *combine_cpu;
-  float *combine_delta_cpu;
+  char *cweights           = NULL;
+  int *indexes             = NULL;
+  int *input_layers        = NULL;
+  int *input_sizes         = NULL;
+  int *map                 = NULL;
+  float *rand              = NULL;
+  float *cost              = NULL;
+  float *state             = NULL;
+  float *prev_state        = NULL;
+  float *forgot_state      = NULL;
+  float *forgot_delta      = NULL;
+  float *state_delta       = NULL;
+  float *combine_cpu       = NULL;
+  float *combine_delta_cpu = NULL;
 
-  float *concat;
-  float *concat_delta;
+  float *concat       = NULL;
+  float *concat_delta = NULL;
 
-  float *binary_weights;
+  float *binary_weights = NULL;
 
-  float *biases;
-  float *bias_updates;
+  float *biases       = NULL;
+  float *bias_updates = NULL;
 
-  float *scales;
-  float *scale_updates;
+  float *scales        = NULL;
+  float *scale_updates = NULL;
 
-  float *weights;
-  float *weight_updates;
+  float *weights        = NULL;
+  float *weight_updates = NULL;
 
-  float *delta;
-  float *output;
-  float *loss;
-  float *squared;
-  float *norms;
+  float *delta   = NULL;
+  float *output  = NULL;
+  float *loss    = NULL;
+  float *squared = NULL;
+  float *norms   = NULL;
 
-  float *spatial_mean;
-  float *mean;
-  float *variance;
+  float *spatial_mean = NULL;
+  float *mean         = NULL;
+  float *variance     = NULL;
 
-  float *mean_delta;
-  float *variance_delta;
+  float *mean_delta     = NULL;
+  float *variance_delta = NULL;
 
-  float *rolling_mean;
-  float *rolling_variance;
+  float *rolling_mean     = NULL;
+  float *rolling_variance = NULL;
 
-  float *x;
-  float *x_norm;
+  float *x      = NULL;
+  float *x_norm = NULL;
 
-  float *m;
-  float *v;
+  float *m = NULL;
+  float *v = NULL;
 
-  float *bias_m;
-  float *bias_v;
-  float *scale_m;
-  float *scale_v;
+  float *bias_m  = NULL;
+  float *bias_v  = NULL;
+  float *scale_m = NULL;
+  float *scale_v = NULL;
 
-  float *z_cpu;
-  float *r_cpu;
-  float *h_cpu;
-  float *prev_state_cpu;
+  float *z_cpu          = NULL;
+  float *r_cpu          = NULL;
+  float *h_cpu          = NULL;
+  float *prev_state_cpu = NULL;
 
-  float *temp_cpu;
-  float *temp2_cpu;
-  float *temp3_cpu;
+  float *temp_cpu  = NULL;
+  float *temp2_cpu = NULL;
+  float *temp3_cpu = NULL;
 
-  float *dh_cpu;
-  float *hh_cpu;
-  float *prev_cell_cpu;
-  float *cell_cpu;
-  float *f_cpu;
-  float *i_cpu;
-  float *g_cpu;
-  float *o_cpu;
-  float *c_cpu;
-  float *dc_cpu;
+  float *dh_cpu        = NULL;
+  float *hh_cpu        = NULL;
+  float *prev_cell_cpu = NULL;
+  float *cell_cpu      = NULL;
+  float *f_cpu         = NULL;
+  float *i_cpu         = NULL;
+  float *g_cpu         = NULL;
+  float *o_cpu         = NULL;
+  float *c_cpu         = NULL;
+  float *dc_cpu        = NULL;
 
-  float *binary_input;
+  float *binary_input = NULL;
 
-  struct layer *input_layer;
-  struct layer *self_layer;
-  struct layer *output_layer;
+  struct layer *input_layer  = NULL;
+  struct layer *self_layer   = NULL;
+  struct layer *output_layer = NULL;
 
-  struct layer *reset_layer;
-  struct layer *update_layer;
-  struct layer *state_layer;
+  struct layer *reset_layer  = NULL;
+  struct layer *update_layer = NULL;
+  struct layer *state_layer  = NULL;
 
-  struct layer *input_gate_layer;
-  struct layer *state_gate_layer;
-  struct layer *input_save_layer;
-  struct layer *state_save_layer;
-  struct layer *input_state_layer;
-  struct layer *state_state_layer;
+  struct layer *input_gate_layer  = NULL;
+  struct layer *state_gate_layer  = NULL;
+  struct layer *input_save_layer  = NULL;
+  struct layer *state_save_layer  = NULL;
+  struct layer *input_state_layer = NULL;
+  struct layer *state_state_layer = NULL;
 
-  struct layer *input_z_layer;
-  struct layer *state_z_layer;
+  struct layer *input_z_layer = NULL;
+  struct layer *state_z_layer = NULL;
 
-  struct layer *input_r_layer;
-  struct layer *state_r_layer;
+  struct layer *input_r_layer = NULL;
+  struct layer *state_r_layer = NULL;
 
-  struct layer *input_h_layer;
-  struct layer *state_h_layer;
+  struct layer *input_h_layer = NULL;
+  struct layer *state_h_layer = NULL;
 
-  struct layer *wz;
-  struct layer *uz;
-  struct layer *wr;
-  struct layer *ur;
-  struct layer *wh;
-  struct layer *uh;
-  struct layer *uo;
-  struct layer *wo;
-  struct layer *uf;
-  struct layer *wf;
-  struct layer *ui;
-  struct layer *wi;
-  struct layer *ug;
-  struct layer *wg;
+  struct layer *wz = NULL;
+  struct layer *uz = NULL;
+  struct layer *wr = NULL;
+  struct layer *ur = NULL;
+  struct layer *wh = NULL;
+  struct layer *uh = NULL;
+  struct layer *uo = NULL;
+  struct layer *wo = NULL;
+  struct layer *uf = NULL;
+  struct layer *wf = NULL;
+  struct layer *ui = NULL;
+  struct layer *wi = NULL;
+  struct layer *ug = NULL;
+  struct layer *wg = NULL;
 
-  tree *softmax_tree;
+  tree *softmax_tree = NULL;
 
-  size_t workspace_size;
+  size_t workspace_size = 0;
 
 #ifdef DKGPU
-  int *indexes_gpu;
+  int *indexes_gpu = NULL;
 
-  float *z_gpu;
-  float *r_gpu;
-  float *h_gpu;
+  float *z_gpu = NULL;
+  float *r_gpu = NULL;
+  float *h_gpu = NULL;
 
-  float *temp_gpu;
-  float *temp2_gpu;
-  float *temp3_gpu;
+  float *temp_gpu  = NULL;
+  float *temp2_gpu = NULL;
+  float *temp3_gpu = NULL;
 
-  float *dh_gpu;
-  float *hh_gpu;
-  float *prev_cell_gpu;
-  float *cell_gpu;
-  float *f_gpu;
-  float *i_gpu;
-  float *g_gpu;
-  float *o_gpu;
-  float *c_gpu;
-  float *dc_gpu;
+  float *dh_gpu        = NULL;
+  float *hh_gpu        = NULL;
+  float *prev_cell_gpu = NULL;
+  float *cell_gpu      = NULL;
+  float *f_gpu         = NULL;
+  float *i_gpu         = NULL;
+  float *g_gpu         = NULL;
+  float *o_gpu         = NULL;
+  float *c_gpu         = NULL;
+  float *dc_gpu        = NULL;
 
-  float *m_gpu;
-  float *v_gpu;
-  float *bias_m_gpu;
-  float *scale_m_gpu;
-  float *bias_v_gpu;
-  float *scale_v_gpu;
+  float *m_gpu       = NULL;
+  float *v_gpu       = NULL;
+  float *bias_m_gpu  = NULL;
+  float *scale_m_gpu = NULL;
+  float *bias_v_gpu  = NULL;
+  float *scale_v_gpu = NULL;
 
-  float *combine_gpu;
-  float *combine_delta_gpu;
+  float *combine_gpu       = NULL;
+  float *combine_delta_gpu = NULL;
 
-  float *prev_state_gpu;
-  float *forgot_state_gpu;
-  float *forgot_delta_gpu;
-  float *state_gpu;
-  float *state_delta_gpu;
-  float *gate_gpu;
-  float *gate_delta_gpu;
-  float *save_gpu;
-  float *save_delta_gpu;
-  float *concat_gpu;
-  float *concat_delta_gpu;
+  float *prev_state_gpu   = NULL;
+  float *forgot_state_gpu = NULL;
+  float *forgot_delta_gpu = NULL;
+  float *state_gpu        = NULL;
+  float *state_delta_gpu  = NULL;
+  float *gate_gpu         = NULL;
+  float *gate_delta_gpu   = NULL;
+  float *save_gpu         = NULL;
+  float *save_delta_gpu   = NULL;
+  float *concat_gpu       = NULL;
+  float *concat_delta_gpu = NULL;
 
-  float *binary_input_gpu;
-  float *binary_weights_gpu;
+  float *binary_input_gpu   = NULL;
+  float *binary_weights_gpu = NULL;
 
-  float *mean_gpu;
-  float *variance_gpu;
+  float *mean_gpu     = NULL;
+  float *variance_gpu = NULL;
 
-  float *rolling_mean_gpu;
-  float *rolling_variance_gpu;
+  float *rolling_mean_gpu     = NULL;
+  float *rolling_variance_gpu = NULL;
 
-  float *variance_delta_gpu;
-  float *mean_delta_gpu;
+  float *variance_delta_gpu = NULL;
+  float *mean_delta_gpu     = NULL;
 
-  float *x_gpu;
-  float *x_norm_gpu;
-  float *weights_gpu;
-  float *weight_updates_gpu;
-  float *weight_change_gpu;
+  float *x_gpu              = NULL;
+  float *x_norm_gpu         = NULL;
+  float *weights_gpu        = NULL;
+  float *weight_updates_gpu = NULL;
+  float *weight_change_gpu  = NULL;
 
-  float *biases_gpu;
-  float *bias_updates_gpu;
-  float *bias_change_gpu;
+  float *biases_gpu       = NULL;
+  float *bias_updates_gpu = NULL;
+  float *bias_change_gpu  = NULL;
 
-  float *scales_gpu;
-  float *scale_updates_gpu;
-  float *scale_change_gpu;
+  float *scales_gpu        = NULL;
+  float *scale_updates_gpu = NULL;
+  float *scale_change_gpu  = NULL;
 
-  float *output_gpu;
-  float *loss_gpu;
-  float *delta_gpu;
-  float *rand_gpu;
-  float *squared_gpu;
-  float *norms_gpu;
+  float *output_gpu  = NULL;
+  float *loss_gpu    = NULL;
+  float *delta_gpu   = NULL;
+  float *rand_gpu    = NULL;
+  float *squared_gpu = NULL;
+  float *norms_gpu   = NULL;
 #ifdef CUDNN
   cudnnTensorDescriptor_t srcTensorDesc, dstTensorDesc;
   cudnnTensorDescriptor_t dsrcTensorDesc, ddstTensorDesc;
@@ -517,7 +517,7 @@ typedef struct network
   float *workspace;
   int train;
   int index;
-  float *cost;
+  float *cost = NULL;
   float clip;
 
 #ifdef DKGPU

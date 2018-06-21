@@ -872,10 +872,14 @@ network *parse_network_cfg(char *filename)
     s       = (section *)n->val;
     options = s->options;
     layer l;
+
     LAYER_TYPE lt = string_to_layer_type(s->type);
+    fprintf(stderr, "Layer type %5d ", (int)lt);
+
     if (lt == CONVOLUTIONAL)
     {
-      l = parse_convolutional(options, params);
+      l      = parse_convolutional(options, params);
+      l.cost = NULL;
     }
     else if (lt == DECONVOLUTIONAL)
     {
@@ -998,6 +1002,7 @@ network *parse_network_cfg(char *filename)
     l.learning_rate_scale =
         option_find_float_quiet(options, "learning_rate", 1);
     l.smooth = option_find_float_quiet(options, "smooth", 0);
+
     option_unused(options);
     net->layers[count] = l;
     if (l.workspace_size > workspace_size) workspace_size = l.workspace_size;
@@ -1012,6 +1017,7 @@ network *parse_network_cfg(char *filename)
       params.inputs = l.outputs;
     }
   }
+
   free_list(sections);
   layer out    = get_network_output_layer(net);
   net->outputs = out.outputs;

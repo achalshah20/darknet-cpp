@@ -238,8 +238,9 @@ void calc_network_cost(network *netp)
   int count = 0;
   for (i = 0; i < net.n; ++i)
   {
-    if (net.layers[i].cost)
+    if (net.layers[i].cost != NULL)
     {
+      fprintf(stderr, "Inside cost!\n");
       sum += net.layers[i].cost[0];
       ++count;
     }
@@ -827,6 +828,12 @@ void free_network(network *net)
   free(net->layers);
   if (net->input) free(net->input);
   if (net->truth) free(net->truth);
+  if (net->t) free(net->t);
+  if (net->seen) free(net->seen);
+  if (net->steps) free(net->steps);
+  if (net->scales) free(net->scales);
+  if (net->cost) free(net->cost);
+
 #ifdef DKGPU
   if (net->input_gpu) cuda_free(net->input_gpu);
   if (net->truth_gpu) cuda_free(net->truth_gpu);
