@@ -9,5 +9,3 @@ Current Status:
 Future work:
 - Replace c style raw pointers to smart pointers
 - Improve modularity
-
-Initial codebase is from https://github.com/for-aiur/yolo_cpp
