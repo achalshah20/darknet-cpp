@@ -46,19 +46,20 @@ layer make_reorg_layer(int batch,
 
   if (extra)
   {
-    fprintf(stderr, "reorg              %4d   ->  %4d\n", l.inputs, l.outputs);
+    // fprintf(stderr, "reorg              %4d   ->  %4d\n", l.inputs,
+    // l.outputs);
   }
   else
   {
-    fprintf(stderr,
-            "reorg              /%2d  %4d x%4d x%4d   ->  %4d x%4d x%4d\n",
-            stride,
-            w,
-            h,
-            c,
-            l.out_w,
-            l.out_h,
-            l.out_c);
+    // fprintf(stderr,
+    //         "reorg              /%2d  %4d x%4d x%4d   ->  %4d x%4d x%4d\n",
+    //         stride,
+    //         w,
+    //         h,
+    //         c,
+    //         l.out_w,
+    //         l.out_h,
+    //         l.out_c);
   }
   int output_size = l.outputs * batch;
   l.output        = (float *)calloc(output_size, sizeof(float));

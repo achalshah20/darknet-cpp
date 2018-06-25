@@ -240,7 +240,6 @@ void calc_network_cost(network *netp)
   {
     if (net.layers[i].cost != NULL)
     {
-      fprintf(stderr, "Inside cost!\n");
       sum += net.layers[i].cost[0];
       ++count;
     }
